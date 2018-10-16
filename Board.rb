@@ -10,7 +10,7 @@ class Board
   ]
   end
 
-  #affiche le tableau
+  #affiche le tableau de façon stylée
   def display
     i = 0
     puts "-----------"
@@ -31,7 +31,7 @@ class Board
     puts "-----------"
   end
 
-   #marquer une position
+   #marque une position
    def add_symbol(position, symbol)
      if (@grid[position] == "X" || @grid[position] == "O")
        puts "this position has already been played, try again"
@@ -50,7 +50,7 @@ class Board
     if @grid[2] == @grid[5] && @grid[5] == @grid[8] then return true end
     if @grid[0] == @grid[4] && @grid[4] == @grid[8] then return true end
     if @grid[2] == @grid[4] && @grid[4] == @grid[6] then return true end
-
+  # gère les égalités
     a=0
     0.upto(8) do |i|
       if @grid[i] == "X" || @grid[i] == "O"
