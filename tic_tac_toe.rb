@@ -1,7 +1,65 @@
-le programme est à deux joueurs only
-le programme doit commencer en demandant le prénom des joueurs
-le programme doit afficher le plateau chaque tour (dans le terminal),
-puis demander au joueur auquel c'est le tour où ce dernier compte jouer
-si un joueur gagne, le programme doit annoncer qui a gagné
-s'il y a match nul, le programme doit annoncer qu'il y a match nul
-À la fin d'une partie, le programme doit proposer une autre partie
+require_relative 'Player.rb'
+require_relative 'Board.rb'
+require 'awesome_print'
+
+
+class Game
+  @@turns_number = 0
+
+  def initialize()
+    # create 2 players
+    puts "Player 1 what's your name?"
+    @player1 = Player.new(gets.chomp, "X")
+    puts "#{@player1.name}, your sign is #{@player1.sign.blue}"
+
+    puts "Player 2 what's your name?"
+    @player2 = Player.new(gets.chomp, "O")
+    puts "#{@player2.name},your sign is #{@player2.sign.purple}"
+  end
+
+  def go
+      @@table = Board.new
+      @@table.display
+     	self.turn
+  end
+
+  def turn
+    @@turns_number = 0
+    while (@@table.victory != true) do
+      if @@turns_number %2 == 0
+        puts "#{@player1.name}, what case are you playing?"
+        @turn_play = gets.chomp
+        unless ['0','1','2','3','4','5','6','7','8','9'].include?(@turn_play)
+          puts "please enter a valid number"
+          @turn_play = gets.chomp
+        end
+        @turn_play = @turn_play.to_i
+        @@table.add_symbol(@turn_play, "X")
+        @@table.display
+        if @@table.victory == true then puts "#{@player1.name}, you win!" end
+
+      else
+        puts "#{@player2.name}, what case are you playing?"
+        @turn_play = gets.chomp
+        unless ['0','1','2','3','4','5','6','7','8','9'].include?(@turn_play)
+          puts "please enter a valid number"
+          @turn_play = gets.chomp
+        end
+        @turn_play = @turn_play.to_i
+        @@table.add_symbol(@turn_play, "O")
+        @@table.display
+        if @@table.victory == true then puts "#{@player2.name}, you win!" end
+      end
+      @@turns_number += 1
+      break if @@turns_number == 9
+    end
+    puts "game finished"
+  end
+end
+
+a = "y"
+while a == "y" do
+Game.new.go
+puts "play again? (y/n)"
+a = gets.chomp
+end
